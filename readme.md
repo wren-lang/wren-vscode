@@ -13,3 +13,7 @@ for latest vscode versions. Please bear with us!
 - Completion support - not yet
 - Debugger support - wip, usable but very experimental 
   - https://github.com/wren-lang/wren/issues/425
+
+
+The original implementation was done by @KeyMaster- ([twitter](https://twitter.com/keymaster_)) as a learning 
+experience in [luxe](https://luxeengine.com), so thanks to them!
