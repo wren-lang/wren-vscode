@@ -1,0 +1,128 @@
+{
+	"name": "vscode-wrendb",
+	"displayName": "Wren Debug",
+	"version": "0.0.1",
+	"publisher": "keymaster",
+	"description": "Wren debug adapter",
+	"author": {
+		"name": "Tilman Schmidt",
+		"email": "hello.keymaster@gmail.com"
+	},
+	"engines": {
+		"vscode": "^1.50.0",
+		"node": "^8.9.3"
+	},
+	"categories": [
+		"Debuggers"
+	],
+	"private": true,
+	"scripts": {
+		"prepare": "tsc -p ./src",
+		"compile": "tsc -p ./src",
+		"tslint": "tslint ./src/**/*.ts",
+		"watch": "tsc -w -p ./src",
+		"test": "mocha -u tdd ./out/tests/",
+		"package": "vsce package",
+		"publish": "vsce publish"
+	},
+	"dependencies": {
+		"vscode-debugprotocol": "^1.34.0",
+		"vscode-debugadapter": "^1.34.0"
+	},
+	"devDependencies": {
+		"@types/mocha": "5.2.5",
+		"@types/node": "8.9.3",
+		"mocha": "5.2.0",
+		"tslint": "5.11.0",
+		"typescript": "3.1.6",
+		"vsce": "1.53.2",
+		"vscode": "^1.1.33",
+		"vscode-debugadapter-testsupport": "1.33.0"
+	},
+	"main": "./out/extension",
+	"activationEvents": [
+		"onDebug",
+		"onLanguage:wren",
+		"workspaceContains:*.wren",
+		"onDebugAdapterProtocolTracker:wren-debug"
+	],
+	"contributes": {
+		"breakpoints": [
+			{
+				"language": "wren"
+			}
+		],
+		"debuggers": [
+			{
+				"type": "wren-debug",
+				"label": "Wren Debug",
+				"program": "./out/adapter.js",
+				"runtime": "node",
+				"languages": [
+					"wren"
+				],
+				"initialConfigurations": [
+					{
+						"type": "wren-debug",
+						"request": "attach",
+						"name": "Attach wren debugger",
+						"projectRoot": "${workspaceRoot}"
+					}
+				],
+				"configurationSnippets": [
+					{
+						"label": "Wren Debug: Attach",
+						"description": "A config attaching the wren debugger",
+						"body": {
+							"type": "wren-debug",
+							"request": "attach",
+							"name": "${2:Attach Debugger}",
+							"projectRoot": "^\"\\${workspaceRoot}\""
+						}
+					}
+				],
+				"configurationAttributes": {
+					"launch": {
+						"required": [
+							"program"
+						],
+						"properties": {
+							"program": {
+								"type": "string",
+								"description": "Absolute path to a text file.",
+								"default": "${workspaceFolder}/${command:AskForProgramName}"
+							},
+							"stopOnEntry": {
+								"type": "boolean",
+								"description": "Automatically stop after launch.",
+								"default": true
+							},
+							"trace": {
+								"type": "boolean",
+								"description": "Enable logging of the Debug Adapter Protocol.",
+								"default": true
+							}
+						}
+					},
+					"attach": {
+						"required": [
+							"projectRoot"
+						],
+						"properties": {
+							"projectRoot": {
+								"type": "string",
+								"description": "Absolute path to the root of the luxe project.",
+								"default": "${workspaceRoot}"
+							},
+							"trace": {
+								"type": "boolean",
+								"description": "Enable logging of the Debug Adapter Protocol.",
+								"default": true
+							}
+						}
+					}
+				}
+			}
+		]
+	}
+}
